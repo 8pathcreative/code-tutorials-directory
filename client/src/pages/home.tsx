@@ -21,31 +21,32 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b">
-        <div className="container mx-auto px-4 py-8">
-          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+      <header className="bg-gradient-to-b from-background to-background/95 border-b border-border/40 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container mx-auto px-4 py-16">
+          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent animate-in slide-in-from-left">
             Code Tutorials
           </h1>
-          <p className="text-muted-foreground text-lg">
-            Curated resources for designers and developers
+          <p className="text-muted-foreground text-xl max-w-2xl animate-in slide-in-from-left duration-500">
+            Discover curated resources, tools, and tutorials to level up your design and development skills.
           </p>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
-        <div className="flex flex-col md:flex-row gap-8">
-          <aside className="w-full md:w-64 flex-shrink-0">
-            <CategoryNav
-              selectedCategory={selectedCategory}
-              onSelectCategory={setSelectedCategory}
-            />
+      <main className="container mx-auto px-4 py-12">
+        <div className="flex flex-col lg:flex-row gap-8">
+          <aside className="w-full lg:w-64 flex-shrink-0">
+            <div className="sticky top-4">
+              <CategoryNav
+                selectedCategory={selectedCategory}
+                onSelectCategory={setSelectedCategory}
+              />
+            </div>
           </aside>
 
-          <div className="flex-1">
+          <div className="flex-1 space-y-8">
             <SearchBar
               value={searchQuery}
               onChange={setSearchQuery}
-              className="mb-8"
             />
 
             {isLoading ? (
