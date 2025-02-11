@@ -4,6 +4,8 @@ import { Resource } from "@shared/schema";
 import CategoryNav from "@/components/category-nav";
 import SearchBar from "@/components/search-bar";
 import ResourceCard from "@/components/resource-card";
+import ResourceCardSkeleton from "@/components/resource-card-skeleton";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -49,29 +51,40 @@ export default function Home() {
               onChange={setSearchQuery}
             />
 
-            {isLoading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[...Array(6)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="h-48 rounded-lg bg-muted animate-pulse"
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {resources.map((resource) => (
-                  <ResourceCard key={resource.id} resource={resource} />
-                ))}
-              </div>
-            )}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {isLoading ? (
+                <>
+                  {[...Array(6)].map((_, i) => (
+                    <ResourceCardSkeleton key={i} />
+                  ))}
+                </>
+              ) : (
+                <AnimatePresence mode="wait">
+                  {resources.map((resource) => (
+                    <motion.div
+                      key={resource.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <ResourceCard resource={resource} />
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              )}
+            </div>
 
             {!isLoading && resources.length === 0 && (
-              <div className="text-center py-12">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-center py-12"
+              >
                 <p className="text-muted-foreground">
                   No resources found. Try adjusting your search or category filter.
                 </p>
-              </div>
+              </motion.div>
             )}
           </div>
         </div>
