@@ -41,3 +41,7 @@ vite.config.ts.*
 # Database
 *.sqlite
 *.db
+
+# Replit specific
+.replit
+replit.nix
